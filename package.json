@@ -1,0 +1,25 @@
+{
+  "name": "@blocklessnetwork/oracle-toolkit",
+  "description": "A toolkit to build oracle feeds with Blockless Network",
+  "version": "1.0.0",
+  "author": "Blockless Network",
+  "main": "index.js",
+  "license": "APACHE-2.0",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf build"
+  },
+  "dependencies": {
+    "@blockless/sdk": "https://github.com/blocklessnetwork/sdk-assemblyscript#5ec12530c76bca3129c1f1a9e1878e02f7aecf8f",
+    "as-bignum": "^0.2.23",
+    "as-wasi": "^0.4.6"
+  },
+  "devDependencies": {
+    "@assemblyscript/wasi-shim": "^0.1.0",
+    "assemblyscript": "^0.20.10"
+  },
+  "files": [
+    "assembly/",
+    "asconfig.json"
+  ]
+}
