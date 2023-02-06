@@ -1,9 +1,9 @@
 {
-  "name": "@blocklessnetwork/oracle-toolkit",
+  "name": "@blockless/oracle-toolkit",
   "description": "A toolkit to build oracle feeds with Blockless Network",
   "version": "1.0.0",
   "author": "Blockless Network",
-  "main": "index.js",
+  "main": "assembly/index.ts",
   "license": "APACHE-2.0",
   "type": "module",
   "scripts": {

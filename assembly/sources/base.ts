@@ -1,3 +1,17 @@
+export abstract class BaseSource {
+  protected source: string
+
+  constructor(source: string) {
+    this.source = source
+  }
+
+  getSource(): string {
+    return this.source
+  }
+
+  abstract fetchSpotPrice(): SpotPriceData
+}
+
 export class SpotPriceData {
   public ts: i64
   public unit: string
@@ -20,16 +34,4 @@ export class SpotPriceData {
   toString(): string {
     return this.priceLast.toString() + ' ' + this.unit + ' @ ' + this.ts.toString()
   }
-}
-
-export abstract class BaseSource {
-  public id: string
-  public description: string
-
-  constructor(id: string, description: string) {
-    this.id = id
-    this.description = description
-  }
-
-  abstract fetchSpotPrice(): SpotPriceData
 }
