@@ -3,7 +3,7 @@
   "description": "A toolkit to build oracle feeds with Blockless Network",
   "version": "1.0.0",
   "author": "Blockless Network",
-  "main": "assembly/index.ts",
+  "main": "index.ts",
   "license": "APACHE-2.0",
   "type": "module",
   "scripts": {},
@@ -16,6 +16,7 @@
     "assemblyscript": "^0.20.10"
   },
   "files": [
+    "index.ts",
     "assembly/",
     "asconfig.json"
   ]
