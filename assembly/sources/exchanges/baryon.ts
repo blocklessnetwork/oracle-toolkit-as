@@ -1,5 +1,6 @@
 import { u128 } from "as-bignum/assembly"
 import { http, json } from "@blockless/sdk"
+import { Date } from 'as-wasi/assembly'
 import { PairReserves, PairToken } from "../types"
 import { BaseSource, SpotPriceData } from "../base"
 
@@ -14,17 +15,21 @@ export class BaryonExchangeBSC extends BaseSource {
    * @param source json api source
    */
   constructor(source: string, token0: PairToken, token1: PairToken) {
-    super(source)
+    super('Baryon Network', 'Binance AMM', source)
 
     this.source = source
     this.token0 = token0
     this.token1 = token1
   }
 
+  getName(): string {
+    return `${this.token0.symbol}/${this.token1.symbol} Baryon Network`
+  }
+
   /**
    * Fetches the spot price from the remote source
    * 
-   * @returns spot price and timestamp 
+   * @returns spot price and timestamp
    */
   fetchSpotPrice(): SpotPriceData {
     let spotPriceData = new SpotPriceData()
@@ -82,7 +87,7 @@ export class BaryonExchangeBSC extends BaseSource {
    * @param unit 
    * @returns 
    */
-  private getUsdUnitPrice(unit: string) {
+  private getUsdUnitPrice(unit: string): f64 {
     let unitPrice = 0.0
     const unitPriceData = new http.Client().get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${unit}&vs_currencies=USD`

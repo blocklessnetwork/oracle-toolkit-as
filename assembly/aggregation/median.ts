@@ -1,10 +1,10 @@
 import { Date } from 'as-wasi/assembly'
-import { json } from "@blockless/sdk"
 import { RedisStorage } from '../utils/redis'
 import { AggregationData, BaseAggregation } from "./base"
 import { BaseSource } from "../sources/base"
+import { json } from '@blockless/sdk'
 
-export class TWAPAggregation extends BaseAggregation {
+export class MedianAggregation extends BaseAggregation {
   /**
    * Construct the exchange source class
    * 
@@ -12,7 +12,7 @@ export class TWAPAggregation extends BaseAggregation {
    * @param source json api source
    */
   constructor(id: string, storageClient: RedisStorage) {
-    super(id, 'twap', storageClient)
+    super(id, 'median', storageClient)
   }
 
   private avgLastPrice(sources: Array<BaseSource>): f64 {
@@ -29,45 +29,40 @@ export class TWAPAggregation extends BaseAggregation {
   }
 
   /**
-   * Execute a twap calculation on all recorded spot price data
+   * Run a median calculation on recorded spot price data
    * 
    * @returns 
    */
   aggregate(sources: Array<BaseSource>): AggregationData {
     const data = this.fetchData()
-
+    
     if (sources.length > 0) {
       const ts = <i64>(Date.now() / 1000)
+      const prices: Array<f64> = []
       const avgLastPrice = this.avgLastPrice(sources)
       data.insertSpotPrice(ts, 'USD', avgLastPrice)
-
-      let priceCumulative: f64 = 0.0
-      let tsLast: i64 = 0
-      let tsLatest: i64 = ts
-      let tsElapsed: i64 = 0
-
+      
       const pricesArray = data.prices._arr
-      for (let i = 1; i < pricesArray.length; i++) {
-        const price = <json.JSON.Obj>pricesArray[i]
-        const priceLast = <json.JSON.Obj>pricesArray[i - 1]
-
-        const priceTs = price.getInteger('ts')!._num
-        const priceLastTs = priceLast.getInteger('ts')!._num
-        const priceLastValue = <f64>priceLast.getFloat('value')!._num
-
-        priceCumulative += priceLastValue * <f64>(priceTs - priceLastTs)
-        if (i === 1) tsLast = priceLastTs
+      for (let i = 0; i < pricesArray.length; i++) {
+        const priceObj = <json.JSON.Obj>pricesArray[i]
+        if (priceObj) {
+          prices.push(priceObj.getFloat('value')!._num)
+        }
+      }
+      
+      prices.sort((a, b) => <i32>(a - b))
+      const mid = <i32>Math.floor(prices.length / 2)
+      
+      if (prices.length % 2 !== 0) {
+        data.price = prices[mid];
+      } else {
+        data.price = (prices[mid - 1] + prices[mid]) / 2;
       }
 
-      // Calc
-      tsElapsed = tsLatest - tsLast
-      const priceAverage = (priceCumulative / <f64>tsElapsed) || 0
-
-      // Save New TWAP Data
-      data.price = priceAverage || avgLastPrice
+      data.ts = ts
       this.saveData(data)
     }
-    
+
     return data
   }
 }

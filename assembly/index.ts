@@ -1,11 +1,9 @@
-import { FeedBuilder } from "./feedBuilder";
-import * as Sources from "./sources"
+import { FeedBuilder } from "./feedBuilder"
 import { RedisStorage } from "./utils/redis"
-
-const Storage = { RedisStorage }
+import * as Sources from "./sources"
 
 export {
   FeedBuilder,
   Sources,
-  Storage
+  RedisStorage
 };

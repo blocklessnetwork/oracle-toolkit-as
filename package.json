@@ -6,16 +6,13 @@
   "main": "assembly/index.ts",
   "license": "APACHE-2.0",
   "type": "module",
-  "scripts": {
-    "clean": "rm -rf build"
-  },
+  "scripts": {},
   "dependencies": {
-    "@blockless/sdk": "https://github.com/blocklessnetwork/sdk-assemblyscript#5ec12530c76bca3129c1f1a9e1878e02f7aecf8f",
+    "@blockless/sdk": "https://github.com/blocklessnetwork/sdk-assemblyscript#03cb89706e48c3e5df493b8170312d7618cf07a0",
     "as-bignum": "^0.2.23",
     "as-wasi": "^0.4.6"
   },
   "devDependencies": {
-    "@assemblyscript/wasi-shim": "^0.1.0",
     "assemblyscript": "^0.20.10"
   },
   "files": [
