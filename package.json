@@ -1,6 +1,6 @@
 {
   "name": "@blockless/oracle-toolkit",
-  "description": "A toolkit to build oracle feeds with Blockless Network",
+  "description": "A toolkit to build oracle data feeds with Blockless Network",
   "version": "1.0.0",
   "author": "Blockless Network",
   "main": "index.ts",
@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {},
   "dependencies": {
-    "@blockless/sdk": "https://github.com/blocklessnetwork/sdk-assemblyscript#03cb89706e48c3e5df493b8170312d7618cf07a0",
+    "@blockless/sdk": "https://github.com/blocklessnetwork/sdk-assemblyscript#2e53453ac08069882c530a186105a182f3657be6",
     "as-bignum": "^0.2.23",
     "as-wasi": "^0.4.6"
   },

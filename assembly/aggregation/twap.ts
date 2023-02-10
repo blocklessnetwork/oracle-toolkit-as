@@ -1,15 +1,17 @@
 import { Date } from 'as-wasi/assembly'
 import { json } from "@blockless/sdk"
 import { RedisStorage } from '../utils/redis'
-import { AggregationData, BaseAggregation } from "./base"
+import { BaseAggregation } from "./base"
 import { BaseSource } from "../sources/base"
+import { AggregationData } from './types'
 
 export class TWAPAggregation extends BaseAggregation {
   /**
-   * Construct the exchange source class
+   * Creates a TWAP aggregator to fetch the last average spot price and
+   * return a TWAP result.
    * 
-   * @param id unique identifier of the exchange source
-   * @param source json api source
+   * @param id unique id of the source
+   * @param storageClient a KV storage client reference
    */
   constructor(id: string, storageClient: RedisStorage) {
     super(id, 'twap', storageClient)
@@ -29,9 +31,10 @@ export class TWAPAggregation extends BaseAggregation {
   }
 
   /**
-   * Execute a twap calculation on all recorded spot price data
+   * Inserting the latest spot price and return the TWAP
+   * value for all prices within the given window
    * 
-   * @returns 
+   * @returns twap aggregated price data
    */
   aggregate(sources: Array<BaseSource>): AggregationData {
     const data = this.fetchData()
@@ -59,7 +62,6 @@ export class TWAPAggregation extends BaseAggregation {
         if (i === 1) tsLast = priceLastTs
       }
 
-      // Calc
       tsElapsed = tsLatest - tsLast
       const priceAverage = (priceCumulative / <f64>tsElapsed) || 0
 

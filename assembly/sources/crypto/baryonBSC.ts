@@ -1,8 +1,8 @@
 import { u128 } from "as-bignum/assembly"
 import { http, json } from "@blockless/sdk"
 import { Date } from 'as-wasi/assembly'
-import { PairReserves, PairToken } from "../types"
-import { BaseSource, SpotPriceData } from "../base"
+import { PairReserves, PairToken, SpotPriceData } from "../types"
+import { BaseSource } from "../base"
 
 export class BaryonExchangeBSC extends BaseSource {
   protected source: string
@@ -22,12 +22,17 @@ export class BaryonExchangeBSC extends BaseSource {
     this.token1 = token1
   }
 
+  /**
+   * Return a readable name for the exchange source
+   * 
+   * @returns name
+   */
   getName(): string {
     return `${this.token0.symbol}/${this.token1.symbol} Baryon Network`
   }
 
   /**
-   * Fetches the spot price from the remote source
+   * Fetches the spot price from the remote source.
    * 
    * @returns spot price and timestamp
    */
@@ -54,7 +59,7 @@ export class BaryonExchangeBSC extends BaseSource {
   }
 
   /**
-   * Fetch pair reserve
+   * Fetch's the pair reserve from the pool's contract.
    * 
    * @param pair 
    * @returns 
@@ -82,10 +87,10 @@ export class BaryonExchangeBSC extends BaseSource {
   }
 
   /**
-   * Fetch unit price from an external service
+   * Fetch usd price of a unit from an external price service
    * 
    * @param unit 
-   * @returns 
+   * @returns the price in USD
    */
   private getUsdUnitPrice(unit: string): f64 {
     let unitPrice = 0.0

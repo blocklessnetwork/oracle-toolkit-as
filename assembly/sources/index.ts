@@ -1,10 +1,11 @@
 import { BaseSource } from "./base";
-import { BaryonExchangeBSC } from './exchanges/baryon'
-import { PairReserves, PairToken } from './types'
+import { BaryonExchangeBSC } from './crypto/baryonBSC'
+import { SpotPriceData, PairReserves, PairToken } from './types'
 
 export {
   BaseSource,
   BaryonExchangeBSC,
+  SpotPriceData,
   PairReserves,
   PairToken
 };

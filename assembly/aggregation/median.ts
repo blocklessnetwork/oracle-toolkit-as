@@ -1,8 +1,9 @@
 import { Date } from 'as-wasi/assembly'
 import { RedisStorage } from '../utils/redis'
-import { AggregationData, BaseAggregation } from "./base"
+import { BaseAggregation } from "./base"
 import { BaseSource } from "../sources/base"
 import { json } from '@blockless/sdk'
+import { AggregationData } from './types'
 
 export class MedianAggregation extends BaseAggregation {
   /**

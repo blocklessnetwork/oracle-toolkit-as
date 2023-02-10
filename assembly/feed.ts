@@ -1,6 +1,6 @@
 import { http, json } from "@blockless/sdk"
 import { Date } from 'as-wasi/assembly'
-import { BaseSource, SpotPriceData } from "./sources/base"
+import { BaseSource, SpotPriceData } from "./sources"
 import { BaseAggregation } from "./aggregation/base"
 
 export class Feed {
@@ -15,6 +15,14 @@ export class Feed {
   private aggregation: BaseAggregation | null
   private sources: Array<BaseSource>
 
+  /**
+   * Create a data feed for a given symbol by including
+   * data sources and aggregation methodologies
+   * 
+   * @param id a unique id of the data feed
+   * @param symbol a short symbol for the data feed; eg. BTC 
+   * @param name the name of the data feed; eg. Bitcoin
+   */
   constructor(id: string, symbol: string, name: string) {
     this.id = id
     this.symbol = symbol
@@ -55,7 +63,7 @@ export class Feed {
   }
 
   /**
-   * Render JSON response
+   * Renders a JSON response for the data feed.
    * 
    * @returns http.Response
    */
@@ -110,7 +118,18 @@ export class Feed {
       .status(200)
   }
   
+  /**
+   * Serve data feed response and handle action flats
+   * 
+   */
   serve(): void {
-    http.HttpComponent.send(this.render())
+    const request = http.HttpComponent.getRequest()
+
+    if (request.query.has('aggregate')) {
+      this.runAggregation()
+      http.HttpComponent.send(this.render())
+    } else {
+      http.HttpComponent.send(this.render())
+    }
   }
 }
