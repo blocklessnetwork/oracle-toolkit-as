@@ -9,7 +9,7 @@ The Oracle Toolkit is designed to be highly customizable and can be used to meet
 To get started, add this module to your Blockless assembly script function.
 
 ```
-@blockless/oracle-toolkit
+npm install @blockless/oracle-toolkit
 ```
 
 After which you may use the `FeedBuilder` to create your own data feed.
