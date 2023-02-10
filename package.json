@@ -1,6 +1,6 @@
 {
-  "name": "@blockless/oracle-toolkit",
-  "description": "A toolkit to build oracle data feeds with Blockless Network",
+  "name": "@blockless/oracle-toolkit-as",
+  "description": "An AssemblyScript toolkit to build oracle data feeds with Blockless Network.",
   "version": "1.0.0",
   "author": "Blockless Network",
   "main": "index.ts",

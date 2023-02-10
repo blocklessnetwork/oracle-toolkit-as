@@ -1,10 +1,18 @@
 # Oracle Toolkit built for Blockless Network
 
-## Playground
-
-
+The Oracle Toolkit is a collection of tools, sources, and aggregators to create DIY oracle feeds using WebAssembly with the Blockless Network.
 
 ## Usage
+
+The Oracle Toolkit is designed to be highly customizable and can be used to meet the specific needs of your project.
+
+To get started, add this module to your Blockless assembly script function.
+
+```
+@blockless/oracle-toolkit
+```
+
+After which you may use the `FeedBuilder` to create your own data feed.
 
 ```ts
 import "wasi"
@@ -44,3 +52,7 @@ oracleFeed.setAggregation(
 // Serve
 oracleFeed.serve()
 ```
+
+## Playground
+
+Visit the Blockless Playground to [https://play.bls.dev/oracle](https://play.bls.dev/oracle)
