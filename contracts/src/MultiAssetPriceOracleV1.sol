@@ -25,9 +25,6 @@ contract MultiAssetPriceOracleV1 is Ownable, MultiAssetOracleInterfaceV1 {
     // Mapping of authorized updater
     mapping(address => bool) private _authorizedUpdater;
 
-    // Event to signal when an oracle has provided a new price
-    // event NewPrice(string symbol, uint256 price, uint256 timestamp);
-
     /**
      * @dev MultiAssetPriceOracleV1 constructor
      * @param name_ A sluggified string identifier
