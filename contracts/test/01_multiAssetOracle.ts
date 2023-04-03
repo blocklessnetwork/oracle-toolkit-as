@@ -54,8 +54,29 @@ describe("MultiAssetPriceOracleV1 Data", function () {
     multiAssetOracle = await Oracle.deploy('Test Oracle', 'This is a test orarcle contract', 8)
   })
 
-  it("Should result an empty data", async function () {
+  it("Should result an empty dataset", async function () {
     const [ price ] = await multiAssetOracle.latestData('BNB')
     expect(price).to.equal(BigNumber.from(0))
   })
+
+  it("Should update dataset with price", async function() {
+    const [owner] = await hre.ethers.getSigners()
+    
+    const symbol = 'BNB'
+    const price  = 232 * 1e8
+    const timestamp = Math.floor(Date.now() / 1000)
+
+    // Authorize the updater
+    await multiAssetOracle.authorizeUpdater(owner.address);
+
+    await expect(multiAssetOracle.updatePrice(symbol, price, timestamp))
+      .to.emit(multiAssetOracle, "NewAnswer")
+  })
+
+  it("Should result dataset with price", async function () {
+    const matchPrice = 232 * 1e8
+    const [price] = await multiAssetOracle.latestData('BNB')
+    expect(price).to.equal(BigNumber.from(matchPrice))
+  })
+
 })
