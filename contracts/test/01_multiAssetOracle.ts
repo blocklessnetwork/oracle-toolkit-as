@@ -69,11 +69,7 @@ describe("MultiAssetPriceOracleV1 Data", function () {
     // Authorize the updater
     await multiAssetOracle.authorizeUpdater(owner.address);
 
-    // Sign the message
-    const messageHash = hre.ethers.utils.solidityKeccak256(["string", "uint256", "uint256"], [symbol, price, timestamp])
-    const signature = await owner.signMessage(hre.ethers.utils.arrayify(messageHash));
-
-    await expect(multiAssetOracle.updatePrice(symbol, price, timestamp, signature))
+    await expect(multiAssetOracle.updatePrice(symbol, price, timestamp))
       .to.emit(multiAssetOracle, "NewAnswer")
   })
 

@@ -90,15 +90,10 @@ contract MultiAssetPriceOracleV1 is Ownable, MultiAssetOracleInterfaceV1 {
      * @param symbol The symbol of the asset to update the price of
      * @param price The new price of the asset
      * @param timestamp The timestamp of when the price was updated
-     * @param signature The digital signature of the data
      */
-    function updatePrice(string memory symbol, uint256 price, uint256 timestamp, bytes memory signature) external {
+    function updatePrice(string memory symbol, uint256 price, uint256 timestamp) external {
         // Verify that the oracle is authorized to update prices
         require(_authorizedUpdater[msg.sender], 'PriceOracle: unauthorized updater');
-
-        // Verify that the signature is valid
-        bytes32 messageHash = keccak256(abi.encodePacked(symbol, price, timestamp));
-        require(verify(messageHash, signature), 'PriceOracle: invalid signature');
 
         // Check that the price and timestamp are valid
         require(price > 0, 'PriceOracle: price must be positive');
@@ -143,46 +138,5 @@ contract MultiAssetPriceOracleV1 is Ownable, MultiAssetOracleInterfaceV1 {
             block.timestamp,
             uint80(block.number)
         );
-    }
-
-    /**
-     * @dev Function to verify a signature
-     * @param messageHash The hash of the message that was signed
-     * @param signature The digital signature of the data
-     * @return True if the signature is valid, false otherwise
-     */
-    function verify(bytes32 messageHash, bytes memory signature) internal view returns (bool) {
-        // Verify that the signature is valid
-        bytes32 prefixedHash = keccak256(abi.encodePacked('\x19Ethereum Signed Message:\n32', messageHash));
-        address signer = recoverSigner(prefixedHash, signature);
-        return _authorizedUpdater[signer];
-    }
-
-    /**
-     * @dev Recovers the address of the signer of a message.
-     * @param message The signed message.
-     * @param sig The signature of the message.
-     * @return The address of the signer.
-     */
-    function recoverSigner(bytes32 message, bytes memory sig) internal pure returns (address) {
-        require(sig.length == 65, 'Signature length must be 65');
-
-        bytes32 r;
-        bytes32 s;
-        uint8 v;
-
-        assembly {
-            r := mload(add(sig, 32))
-            s := mload(add(sig, 64))
-            v := byte(0, mload(add(sig, 96)))
-        }
-
-        if (v < 27) {
-            v += 27;
-        }
-
-        require(v == 27 || v == 28, 'Invalid signature version');
-
-        return ecrecover(message, v, r, s);
     }
 }
