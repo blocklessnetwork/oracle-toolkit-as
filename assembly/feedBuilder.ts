@@ -3,20 +3,24 @@ import { BaseSource } from "./sources/base"
 import { MedianAggregation } from "./aggregation/median"
 import { RedisStorage } from "./utils/redis"
 import { TWAPAggregation } from "./aggregation/twap"
+import { FeedData, FeedPublishResponse } from "./types"
 
 export class FeedBuilder {
-  private id: string
   private feed: Feed
 
   /**
    * A helper class to build the data feed
    *  
    * @param symbol a short symbol for the data feed; eg. BTC 
-   * @param name the name of the data feed; eg. Bitcoin
+   * @param unit the unit of the data feed; eg. Bitcoin
    */
-  constructor(symbol: string, name: string) {
-    this.id = `${symbol}`
-    this.feed = new Feed(this.id, symbol, name)
+  constructor(symbol: string, unit: string) {
+    this.feed = new Feed(symbol, unit)
+  }
+
+  setName(name: string): FeedBuilder {
+    this.feed.setName(name)
+    return this
   }
 
   setDescription(description: string): FeedBuilder {
@@ -34,12 +38,15 @@ export class FeedBuilder {
     return this
   }
 
-  setAggregation(type: string, storageClient: RedisStorage): FeedBuilder {
-    if (type === 'median') {
-      this.feed.setAggregation(new MedianAggregation(this.id, storageClient))
-    } else if (type === 'twap') {
-      this.feed.setAggregation(new TWAPAggregation(this.id, storageClient))
+  setAggregation(type: string, storageClient: RedisStorage | null = null): FeedBuilder {
+    const id = `${this.feed.symbol}-${this.feed.unit}`
+
+    if (storageClient && type === 'median') {
+      this.feed.setAggregation(new MedianAggregation(id, storageClient))
+    } else if (storageClient && type === 'twap') {
+      this.feed.setAggregation(new TWAPAggregation(id, storageClient))
     }
+
     return this
   }
 
@@ -48,7 +55,12 @@ export class FeedBuilder {
     return this
   }
 
-  serve(): void {
+  onPublish(handler: (request: FeedData) => FeedPublishResponse): FeedBuilder {
+    this.feed.setPublishHandler(handler)
+    return this
+  }
+
+  start(): void {
     this.feed.serve()
   }
 }

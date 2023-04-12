@@ -3,7 +3,7 @@ import { json } from "@blockless/sdk"
 import { RedisStorage } from '../utils/redis'
 import { BaseAggregation } from "./base"
 import { BaseSource } from "../sources/base"
-import { AggregationData } from './types'
+import { AggregationData } from '../types'
 
 export class TWAPAggregation extends BaseAggregation {
   /**

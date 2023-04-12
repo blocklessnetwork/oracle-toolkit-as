@@ -8,12 +8,12 @@
   "type": "module",
   "scripts": {},
   "dependencies": {
-    "@blockless/sdk": "https://github.com/blocklessnetwork/sdk-assemblyscript#2e53453ac08069882c530a186105a182f3657be6",
-    "as-bignum": "^0.2.23",
-    "as-wasi": "^0.4.6"
+    "@blockless/sdk": "https://github.com/blocklessnetwork/sdk-assemblyscript#12cc60e6bcc479daefc3673f511626f11415b0d8",
+    "as-bignum": "^0.2.30",
+    "as-wasi": "^0.6.0"
   },
   "devDependencies": {
-    "assemblyscript": "^0.20.10"
+    "assemblyscript": "^0.25.00"
   },
   "files": [
     "index.ts",

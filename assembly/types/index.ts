@@ -1,5 +1,50 @@
 import { json } from "@blockless/sdk"
 
+export class FeedData {
+  ts!: i32
+  price!: f64
+}
+
+export class FeedPublishResponse {
+  private chainId: number
+  private contract: string
+  private data: string
+
+  constructor(chainId: number, contract: string, data: string) {
+    this.chainId = chainId
+    this.contract = contract
+    this.data = data
+  }
+
+  toString(): string {
+    return 'sdsd'
+  }
+}
+
+export class SpotPriceData {
+  public ts: i64
+  public unit: string
+  public priceLast: f64
+  public priceUnit: f64
+
+  constructor() {
+    this.ts = 0
+    this.unit = 'USD'
+    this.priceLast = 0.0
+    this.priceUnit = 0.0
+  }
+
+  setData(ts: i64, unit: string, priceLast: f64): void {
+    this.ts = ts
+    this.unit = unit
+    this.priceLast = priceLast
+  }
+
+  toString(): string {
+    return this.priceLast.toString() + ' ' + this.unit + ' @ ' + this.ts.toString()
+  }
+}
+
 export class AggregationData {
   public ts: i64
   public price: f64

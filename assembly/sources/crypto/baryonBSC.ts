@@ -1,8 +1,9 @@
 import { u128 } from "as-bignum/assembly"
 import { http, json } from "@blockless/sdk"
 import { Date } from 'as-wasi/assembly'
-import { PairReserves, PairToken, SpotPriceData } from "../types"
+import { PairReserves, PairToken } from "../types"
 import { BaseSource } from "../base"
+import { SpotPriceData } from "../../types"
 
 export class BaryonExchangeBSC extends BaseSource {
   protected source: string
@@ -15,20 +16,11 @@ export class BaryonExchangeBSC extends BaseSource {
    * @param source json api source
    */
   constructor(source: string, token0: PairToken, token1: PairToken) {
-    super('Baryon Network', 'Binance AMM', source)
+    super(`${token0.symbol}/${token1.symbol} Baryon Network`, 'Binance AMM', source)
 
     this.source = source
     this.token0 = token0
     this.token1 = token1
-  }
-
-  /**
-   * Return a readable name for the exchange source
-   * 
-   * @returns name
-   */
-  getName(): string {
-    return `${this.token0.symbol}/${this.token1.symbol} Baryon Network`
   }
 
   /**
@@ -39,6 +31,7 @@ export class BaryonExchangeBSC extends BaseSource {
   fetchSpotPrice(): SpotPriceData {
     let spotPriceData = new SpotPriceData()
 
+    // Fetch pair reserve for the pool
     const pairReserves = this.getPairReserves(this.source)
 
     // Fetching spot price for token1

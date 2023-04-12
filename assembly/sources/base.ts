@@ -1,4 +1,4 @@
-import { SpotPriceData } from "./types"
+import { SpotPriceData } from "../types"
 
 export abstract class BaseSource {
   protected name: string

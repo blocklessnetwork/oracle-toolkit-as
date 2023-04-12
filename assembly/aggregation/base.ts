@@ -1,7 +1,7 @@
 import { json } from "@blockless/sdk"
 import { RedisStorage } from "../utils/redis"
 import { BaseSource } from "../sources"
-import { AggregationData } from "./types"
+import { AggregationData } from "../types"
 
 export abstract class BaseAggregation {
   protected id: string
